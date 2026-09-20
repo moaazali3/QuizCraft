@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="QuizPlatform.API/QuizPlatform.API.csproj" />
+  <Project Path="QuizPlatform.Application/QuizPlatform.Application.csproj" />
+  <Project Path="QuizPlatform.Core/QuizPlatform.Core.csproj" />
+  <Project Path="QuizPlatform.Infrastructure/QuizPlatform.Infrastructure.csproj" />
+</Solution>
