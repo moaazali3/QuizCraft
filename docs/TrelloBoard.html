@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizCraft - Trello Sprint Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --trello-bg: #0079bf;
+      --trello-column-bg: #ebecf0;
+      --trello-card-bg: #ffffff;
+      --trello-header-bg: rgba(0, 0, 0, 0.2);
+      --text-dark: #172b4d;
+      --text-muted: #5e6c84;
+      --label-green: #61bd4f;
+      --label-yellow: #f2d600;
+      --label-orange: #ff9f1a;
+      --label-red: #eb5a46;
+      --label-purple: #c377e0;
+      --label-blue: #0079bf;
+      --label-sky: #00c2e0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, "Droid Sans", "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0079bf 0%, #5067c5 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: auto;
+    }
+
+    /* Top Helper Banner */
+    .screenshot-tip {
+      background: #091e42;
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      z-index: 1000;
+    }
+
+    .screenshot-tip button {
+      background: #eb5a46;
+      border: none;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Trello Top Navigation */
+    .trello-nav {
+      height: 48px;
+      background: var(--trello-header-bg);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      color: #fff;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .trello-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .trello-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .trello-icon {
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 3px;
+      display: inline-flex;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .trello-icon-bar1 { width: 50%; background: #0079bf; border-radius: 2px; height: 100%; }
+    .trello-icon-bar2 { width: 50%; background: #0079bf; border-radius: 2px; height: 65%; }
+
+    .board-header {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      color: #fff;
+    }
+
+    .board-title {
+      font-size: 18px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .board-title:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .board-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .avatar-group {
+      display: flex;
+      margin-left: 10px;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #dfe1e6;
+      color: #172b4d;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #0079bf;
+      margin-left: -6px;
+    }
+
+    .avatar:first-child { margin-left: 0; }
+    .avatar.av-1 { background: #ffab00; color: #172b4d; }
+    .avatar.av-2 { background: #0052cc; color: #fff; }
+    .avatar.av-3 { background: #36b37e; color: #fff; }
+    .avatar.av-4 { background: #6554c0; color: #fff; }
+
+    /* Canvas / Board Content */
+    .board-canvas {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 16px 24px;
+      gap: 12px;
+      overflow-x: auto;
+    }
+
+    /* Columns */
+    .column {
+      width: 280px;
+      background: var(--trello-column-bg);
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      max-height: calc(100vh - 140px);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .column-header {
+      padding: 10px 14px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .column-cards-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: normal;
+    }
+
+    .column-cards {
+      padding: 6px 8px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--trello-card-bg);
+      border-radius: 8px;
+      padding: 8px 10px 10px;
+      box-shadow: 0 1px 2px rgba(9,30,66,0.25);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 8px rgba(9,30,66,0.25);
+    }
+
+    .card-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .label {
+      height: 16px;
+      min-width: 42px;
+      padding: 0 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+    }
+
+    .label.backend { background: #0079bf; }
+    .label.core { background: #6554c0; }
+    .label.regex { background: #ff9f1a; }
+    .label.db { background: #00c2e0; }
+    .label.feature { background: #61bd4f; }
+    .label.high { background: #eb5a46; }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      line-height: 1.35;
+    }
+
+    .card-badges {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .card-badges-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .badge-item.checklist.complete {
+      background: #61bd4f;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    .badge-item.date {
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: #f4f5f7;
+    }
+
+    .badge-item.date.due-soon {
+      background: #ffab00;
+      color: #172b4d;
+      font-weight: 600;
+    }
+
+    .column-footer {
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .column-footer:hover {
+      background: rgba(9,30,66,0.08);
+      color: var(--text-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Tip for Taking Screenshot -->
+  <div class="screenshot-tip" id="tipBanner">
+    <span>📸 <strong>Trello Space for QuizCraft:</strong> يمكنك أخذ لقطة شاشة (Screenshot / Snipping Tool) الآن لتقديمها!</span>
+    <button onclick="document.getElementById('tipBanner').style.display='none'">إخفاء هذا الشريط لأخذ اللقطة</button>
+  </div>
+
+  <!-- Trello Top Nav -->
+  <div class="trello-nav">
+    <div class="trello-nav-left">
+      <div class="trello-logo">
+        <div class="trello-icon">
+          <div class="trello-icon-bar1"></div>
+          <div class="trello-icon-bar2"></div>
+        </div>
+        Trello
+      </div>
+      <span style="font-size: 14px; opacity: 0.9;">Workspaces / <strong>QuizCraft Team</strong></span>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <div class="board-badge">🔍 Search</div>
+      <div class="avatar av-1">MA</div>
+    </div>
+  </div>
+
+  <!-- Board Sub-header -->
+  <div class="board-header">
+    <div class="board-title">QuizCraft - Development Sprint 1</div>
+    <div class="board-badge">★</div>
+    <div class="board-badge">🔒 Workspace Visible</div>
+    <div class="board-badge">🚀 Sprint Board</div>
+    <div class="avatar-group">
+      <div class="avatar av-1" title="Moaaz Ali (Lead)">MA</div>
+      <div class="avatar av-2" title="Backend Dev">AH</div>
+      <div class="avatar av-3" title="Core Dev">SR</div>
+      <div class="avatar av-4" title="QA Dev">OM</div>
+    </div>
+    <div class="board-badge" style="margin-left: auto;">⚡ Automation</div>
+    <div class="board-badge">Filter</div>
+    <div class="board-badge" style="background: #fff; color: #0079bf; font-weight: 700;">Share</div>
+  </div>
+
+  <!-- Board Canvas Columns -->
+  <div class="board-canvas">
+
+    <!-- Column 1: Backlog -->
+    <div class="column">
+      <div class="column-header">
+        <span>Backlog / Requirements</span>
+        <span class="column-cards-count">3</span>
+      </div>
+      <div class="column-cards">
+        <div class="card">
+          <div class="card-labels">
+            <span class="label high">High</span>
+            <span class="label core">Docs</span>
+          </div>
+          <div class="card-title">Prepare Software Requirements Specification (SRS) Document</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">📄</span>
+              <span class="badge-item checklist complete">☑ 4/4</span>
+            </div>
+            <div class="avatar av-1">MA</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label feature">Idea</span>
+          </div>
+          <div class="card-title">Support essay and short-answer questions in PDF parser</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">💬 2</span>
+            </div>
+            <div class="avatar av-3">SR</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label feature">Feature</span>
+          </div>
+          <div class="card-title">Export exam results to Excel / CSV format for teachers</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">📎 1</span>
+            </div>
+            <div class="avatar av-4">OM</div>
+          </div>
+        </div>
+      </div>
+      <div class="column-footer">+ Add a card</div>
+    </div>
+
+    <!-- Column 2: To Do (Sprint 1) -->
+    <div class="column">
+      <div class="column-header">
+        <span>To Do (Sprint 1)</span>
+        <span class="column-cards-count">4</span>
+      </div>
+      <div class="column-cards">
+        <div class="card">
+          <div class="card-labels">
+            <span class="label regex">Regex</span>
+            <span class="label high">High</span>
+          </div>
+          <div class="card-title">Implement PdfParserService: MCQ options parsing with Regex</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item date due-soon">🕒 Sep 24</span>
+              <span class="badge-item">☑ 0/4</span>
+            </div>
+            <div class="avatar av-2">AH</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label db">DAL</span>
+          </div>
+          <div class="card-title">Implement ExamRepository queries with EF Core Include</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item date">🕒 Sep 26</span>
+              <span class="badge-item">☑ 0/3</span>
+            </div>
+            <div class="avatar av-3">SR</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label backend">Backend</span>
+          </div>
+          <div class="card-title">Implement SubmissionService auto-grading & timeout calculations</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">💬 1</span>
+              <span class="badge-item">☑ 0/5</span>
+            </div>
+            <div class="avatar av-4">OM</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label backend">API</span>
+          </div>
+          <div class="card-title">Implement Teacher Tracker & hardest question analytics endpoint</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item date">🕒 Sep 28</span>
+            </div>
+            <div class="avatar av-1">MA</div>
+          </div>
+        </div>
+      </div>
+      <div class="column-footer">+ Add a card</div>
+    </div>
+
+    <!-- Column 3: In Progress -->
+    <div class="column">
+      <div class="column-header">
+        <span>In Progress</span>
+        <span class="column-cards-count">3</span>
+      </div>
+      <div class="column-cards">
+        <div class="card">
+          <div class="card-labels">
+            <span class="label regex">Regex</span>
+            <span class="label backend">Backend</span>
+          </div>
+          <div class="card-title">Integrate UglyToad.PdfPig to read text streams from PDF</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item date due-soon">🕒 Today</span>
+              <span class="badge-item">☑ 2/3</span>
+            </div>
+            <div class="avatar av-2">AH</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label backend">Application</span>
+          </div>
+          <div class="card-title">Write ExamService: CreateExam & Generate Unique AccessCode</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">☑ 3/4</span>
+              <span class="badge-item">💬 3</span>
+            </div>
+            <div class="avatar av-1">MA</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label db">DAL</span>
+          </div>
+          <div class="card-title">Setup SQLite database migrations and AppDbContext seeds</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">☑ 1/2</span>
+            </div>
+            <div class="avatar av-3">SR</div>
+          </div>
+        </div>
+      </div>
+      <div class="column-footer">+ Add a card</div>
+    </div>
+
+    <!-- Column 4: Code Review / QA -->
+    <div class="column">
+      <div class="column-header">
+        <span>Review / Testing</span>
+        <span class="column-cards-count">2</span>
+      </div>
+      <div class="column-cards">
+        <div class="card">
+          <div class="card-labels">
+            <span class="label core">Security</span>
+            <span class="label high">High</span>
+          </div>
+          <div class="card-title">Audit TakeExamDto to ensure IsCorrect answer is strictly hidden</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item checklist complete">☑ 3/3</span>
+              <span class="badge-item">💬 4</span>
+            </div>
+            <div class="avatar av-4">OM</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label backend">API</span>
+          </div>
+          <div class="card-title">Test ExamsController endpoints on Swagger / OpenAPI</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">📎 2</span>
+              <span class="badge-item">☑ 2/3</span>
+            </div>
+            <div class="avatar av-1">MA</div>
+          </div>
+        </div>
+      </div>
+      <div class="column-footer">+ Add a card</div>
+    </div>
+
+    <!-- Column 5: Done -->
+    <div class="column">
+      <div class="column-header">
+        <span>Done ✅</span>
+        <span class="column-cards-count">4</span>
+      </div>
+      <div class="column-cards">
+        <div class="card">
+          <div class="card-labels">
+            <span class="label core">Core</span>
+            <span class="label backend">Backend</span>
+          </div>
+          <div class="card-title">Initialize 4-Layer Architecture (Core, Application, Infrastructure, API)</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item checklist complete">☑ 4/4</span>
+            </div>
+            <div class="avatar av-1">MA</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label core">Entities</span>
+          </div>
+          <div class="card-title">Define Core Entities: Exam, Question, Option, Submission, StudentAnswer</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item checklist complete">☑ 5/5</span>
+            </div>
+            <div class="avatar av-3">SR</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label backend">Tasks</span>
+          </div>
+          <div class="card-title">Create ASSIGNMENTS.md task distribution for team members</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">📄</span>
+            </div>
+            <div class="avatar av-1">MA</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-labels">
+            <span class="label high">Git</span>
+          </div>
+          <div class="card-title">Setup Git repository & Push initial commit to GitHub (QuizCraft.git)</div>
+          <div class="card-badges">
+            <div class="card-badges-left">
+              <span class="badge-item">🔗 Git</span>
+              <span class="badge-item checklist complete">☑ Done</span>
+            </div>
+            <div class="avatar av-1">MA</div>
+          </div>
+        </div>
+      </div>
+      <div class="column-footer">+ Add a card</div>
+    </div>
+
+  </div>
+
+</body>
+</html>
