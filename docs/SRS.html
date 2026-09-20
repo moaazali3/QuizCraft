@@ -6,17 +6,16 @@
   <title>SRS - QuizCraft Platform Specification</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #1e3a8a;
-      --primary-light: #3b82f6;
+      --primary-light: #2563eb;
       --secondary: #0f172a;
-      --accent: #10b981;
-      --warning: #f59e0b;
-      --bg-page: #f8fafc;
+      --accent: #059669;
+      --bg-page: #f1f5f9;
       --surface: #ffffff;
-      --border: #e2e8f0;
+      --border: #cbd5e1;
       --text: #1e293b;
       --text-muted: #64748b;
     }
@@ -31,162 +30,157 @@
       font-family: 'Cairo', sans-serif;
       background-color: var(--bg-page);
       color: var(--text);
-      line-height: 1.8;
-      font-size: 15px;
+      line-height: 1.6;
+      font-size: 14px;
     }
 
     /* Print Controls */
     .no-print {
       position: fixed;
-      top: 15px;
-      left: 15px;
+      top: 12px;
+      left: 12px;
       z-index: 9999;
       background: var(--surface);
-      padding: 10px 16px;
-      border-radius: 50px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      padding: 8px 14px;
+      border-radius: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
       border: 1px solid var(--border);
+      font-size: 13px;
     }
 
     .btn-print {
       background: var(--primary-light);
       color: #fff;
       border: none;
-      padding: 8px 18px;
-      border-radius: 30px;
+      padding: 6px 14px;
+      border-radius: 20px;
       font-family: 'Cairo', sans-serif;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      gap: 5px;
+      transition: background 0.15s ease;
     }
 
     .btn-print:hover {
       background: var(--primary);
-      transform: translateY(-1px);
     }
 
     /* Document Container */
     .document-container {
-      max-width: 900px;
-      margin: 30px auto;
+      max-width: 850px;
+      margin: 20px auto;
       background: var(--surface);
-      padding: 50px 60px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      border-radius: 8px;
+      padding: 30px 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-radius: 6px;
       border: 1px solid var(--border);
     }
 
-    /* Cover Page */
+    /* Compact Cover / Header */
     .cover-page {
       text-align: center;
-      padding: 70px 20px 60px;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 45px;
+      padding: 10px 10px 18px;
+      border-bottom: 2px solid var(--primary-light);
+      margin-bottom: 18px;
     }
 
     .badge-doc {
       display: inline-block;
       background: #eff6ff;
       color: var(--primary);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 13px;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
       border: 1px solid #bfdbfe;
     }
 
     .cover-title {
-      font-size: 34px;
+      font-size: 24px;
       font-weight: 900;
       color: var(--secondary);
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       line-height: 1.3;
     }
 
     .cover-subtitle {
-      font-size: 18px;
+      font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 35px;
+      margin-bottom: 14px;
       font-weight: 600;
     }
 
     .meta-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      max-width: 500px;
-      margin: 0 auto;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 12px;
       text-align: right;
-      background: #f1f5f9;
-      padding: 20px 25px;
-      border-radius: 10px;
-      font-size: 14px;
     }
 
     .meta-item strong {
       color: var(--secondary);
       display: inline-block;
-      margin-left: 6px;
+      margin-left: 4px;
     }
 
     /* Headings */
     h2 {
       color: var(--primary);
-      font-size: 22px;
+      font-size: 17px;
       font-weight: 800;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 8px;
-      margin-top: 40px;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 4px;
+      margin-top: 18px;
+      margin-bottom: 8px;
     }
 
     h3 {
       color: var(--secondary);
-      font-size: 17px;
+      font-size: 14px;
       font-weight: 700;
-      margin-top: 25px;
-      margin-bottom: 10px;
+      margin-top: 12px;
+      margin-bottom: 6px;
     }
 
     p {
-      margin-bottom: 14px;
+      margin-bottom: 8px;
       color: #334155;
       text-align: justify;
     }
 
     ul, ol {
-      margin-right: 24px;
-      margin-bottom: 16px;
+      margin-right: 20px;
+      margin-bottom: 8px;
       color: #334155;
     }
 
     li {
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
 
     /* Tables */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 14px;
+      margin: 10px 0;
+      font-size: 12.5px;
     }
 
     th, td {
       border: 1px solid var(--border);
-      padding: 10px 14px;
+      padding: 6px 10px;
       text-align: right;
     }
 
@@ -200,74 +194,137 @@
       background-color: #f8fafc;
     }
 
-    /* Callouts / Info boxes */
+    /* Info Box */
     .info-box {
       background: #eff6ff;
-      border-right: 4px solid var(--primary-light);
-      padding: 14px 18px;
-      border-radius: 0 8px 8px 0;
-      margin: 20px 0;
-      font-size: 14px;
+      border-right: 3px solid var(--primary-light);
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      margin: 10px 0;
+      font-size: 12.5px;
     }
 
     .info-box strong {
       color: var(--primary);
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .code-box {
-      direction: ltr;
-      text-align: left;
-      background: #0f172a;
-      color: #e2e8f0;
-      padding: 16px 20px;
-      border-radius: 8px;
-      font-family: 'Fira Code', monospace;
-      font-size: 13px;
-      margin: 16px 0;
-      overflow-x: auto;
-      line-height: 1.6;
+      display: inline-block;
+      margin-left: 4px;
     }
 
     .architecture-diagram {
       direction: ltr;
       text-align: center;
       background: #f8fafc;
-      border: 1px dashed var(--primary-light);
-      padding: 20px;
-      border-radius: 8px;
-      margin: 20px 0;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 6px;
+      margin: 10px 0;
       font-family: 'Fira Code', monospace;
-      font-size: 13px;
+      font-size: 11px;
       white-space: pre;
-      line-height: 1.5;
+      line-height: 1.35;
     }
 
-    /* Print CSS */
+    /* Print Optimization - NO GAPS */
     @media print {
-      body {
-        background: #fff;
-        font-size: 13pt;
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
       }
+
+      body {
+        background: #ffffff !important;
+        font-size: 10.5pt;
+        line-height: 1.45;
+        color: #000;
+      }
+
       .no-print {
         display: none !important;
       }
+
       .document-container {
-        box-shadow: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-        max-width: 100%;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
       }
-      .page-break {
-        page-break-before: always;
+
+      .cover-page {
+        padding: 0 0 10px 0 !important;
+        margin-bottom: 12px !important;
+        border-bottom: 1.5pt solid #1e3a8a !important;
       }
+
+      .cover-title {
+        font-size: 18pt !important;
+        margin-bottom: 2pt !important;
+      }
+
+      .cover-subtitle {
+        font-size: 10pt !important;
+        margin-bottom: 8pt !important;
+      }
+
+      .meta-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        padding: 6pt !important;
+        gap: 4pt !important;
+        background: #f8fafc !important;
+        border: 0.5pt solid #cbd5e1 !important;
+        font-size: 8.5pt !important;
+      }
+
       h2 {
+        font-size: 13pt !important;
+        margin-top: 10pt !important;
+        margin-bottom: 4pt !important;
+        padding-bottom: 2pt !important;
         page-break-after: avoid;
+        break-after: avoid;
       }
-      table, .code-box, .info-box {
+
+      h3 {
+        font-size: 11pt !important;
+        margin-top: 6pt !important;
+        margin-bottom: 3pt !important;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      p, ul, ol {
+        margin-bottom: 4pt !important;
+      }
+
+      li {
+        margin-bottom: 2pt !important;
+      }
+
+      table {
+        margin: 6pt 0 !important;
+        font-size: 9pt !important;
         page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      th, td {
+        padding: 4pt 6pt !important;
+      }
+
+      .architecture-diagram {
+        font-size: 8pt !important;
+        padding: 6pt !important;
+        margin: 6pt 0 !important;
+        line-height: 1.25 !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .info-box {
+        margin: 6pt 0 !important;
+        padding: 5pt 8pt !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
       }
     }
   </style>
@@ -276,25 +333,25 @@
 
   <!-- Floating Print Button -->
   <div class="no-print">
-    <span>🖨️ مستند SRS جاهز للطباعة أو الحفظ كـ PDF:</span>
+    <span>🖨️ طباعة SRS (بدون فواصل أو فراغات):</span>
     <button class="btn-print" onclick="window.print()">طباعة / حفظ كـ PDF</button>
   </div>
 
   <div class="document-container">
 
-    <!-- Cover Page -->
+    <!-- Compact Header -->
     <div class="cover-page">
       <div class="badge-doc">Software Requirements Specification (SRS) - v1.0</div>
       <h1 class="cover-title">منصة QuizCraft لتحويل ملفات PDF إلى اختبارات تفاعلية</h1>
-      <p class="cover-subtitle">نظام ذكي لاستخراج الأسئلة بالـ Regex والتصحيح التلقائي وتتبع الطلاب وفق معمارية 4-Layer</p>
+      <p class="cover-subtitle">نظام استخراج الأسئلة بالـ Regex والتصحيح التلقائي وتتبع الطلاب وفق معمارية 4-Layer</p>
 
       <div class="meta-grid">
-        <div class="meta-item"><strong>اسم المشروع:</strong> QuizCraft Platform</div>
+        <div class="meta-item"><strong>اسم المشروع:</strong> QuizCraft</div>
+        <div class="meta-item"><strong>المعمارية:</strong> Clean 4-Layer</div>
+        <div class="meta-item"><strong>بيئة العمل:</strong> .NET 10 / C#</div>
         <div class="meta-item"><strong>تاريخ الإصدار:</strong> سبتمبر 2026</div>
-        <div class="meta-item"><strong>المعمارية:</strong> Clean 4-Layer Architecture</div>
-        <div class="meta-item"><strong>بيئة التطوير:</strong> .NET 10 / C# / EF Core</div>
-        <div class="meta-item"><strong>المستودع:</strong> GitHub (QuizCraft.git)</div>
-        <div class="meta-item"><strong>حالة المستند:</strong> Approved & Baseline</div>
+        <div class="meta-item"><strong>المستودع:</strong> GitHub Repo</div>
+        <div class="meta-item"><strong>الحالة:</strong> Approved</div>
       </div>
     </div>
 
@@ -302,51 +359,46 @@
     <h2>1. المقدمة (Introduction)</h2>
     <h3>1.1 الهدف من النظام (Purpose)</h3>
     <p>
-      الهدف من نظام <strong>QuizCraft</strong> هو تمكين المعلمين والمؤسسات التعليمية من تحويل اختبارات الاختيار من متعدد (MCQ) المخزنة في ملفات PDF ذات هيكل منظم إلى اختبارات تفاعلية أونلاين فوراً، دون الاعتماد على نماذج الذكاء الاصطناعي الخارجية (No AI Dependencies)، بالاعتماد الكامل على خوارزمية قطعية ومحددة (Deterministic Text & Regex Parsing).
+      تمكين المعلمين والمؤسسات التعليمية من تحويل ملفات الـ PDF التي تحتوي على أسئلة اختيار من متعدد (MCQ) إلى اختبارات تفاعلية أونلاين فوراً، دون استخدام أي نماذج ذكاء اصطناعي خارجية (No AI Dependencies)، بالاعتماد الكامل على خوارزمية قطعية دقيقة وسريعة (Deterministic Regex & Text Parsing).
     </p>
 
-    <h3>1.2 النطاق (Scope)</h3>
+    <h3>1.2 النطاق الأساسي (Scope)</h3>
     <ul>
-      <li>رفع ملف PDF بهيكل ثابت يحتوي على أسئلة وخيارات ومفاتيح حل.</li>
-      <li>استخراج الأسئلة والخيارات آلياً وعرضها على واجهة مراجعة سهلة للمعلم.</li>
-      <li>توليد كود دخول فريد لكل امتحان ومشاركته مع الطلاب.</li>
-      <li>منصة مخصصة للطلاب لحل الامتحان مع عداد تنازلي نشط وتسليم تلقائي عند نفاد الوقت.</li>
-      <li>تصحيح آلي مباشر واحتساب الدرجات ونسب النجاح والرسوب فور إرسال الإجابات.</li>
-      <li>لوحة تحكم للمدرس لتتبع حضور الطلاب وتحليل الأسئلة الأكثر صعوبة.</li>
+      <li>رفع ملف PDF بهيكل ثابت واستخراج نصوص الأسئلة والخيارات ومفتاح الإجابات آلياً.</li>
+      <li>شاشة مراجعة للمعلم لتعديل الأسئلة، تحديد الإجابة النموذجية، وضبط درجات كل سؤال.</li>
+      <li>توليد كود دخول فريد (Access Code) لكل امتحان ومشاركته مع الطلاب.</li>
+      <li>واجهة مخصصة للطلاب لحل الامتحان مع عداد تنازلي نشط وتسليم تلقائي عند نفاد الوقت.</li>
+      <li>تصحيح آلي فوري وإصدار تقرير الفيدباك والنسبة المئوية فور تسليم الطالب.</li>
+      <li>لوحة تتبع للمدرس (Tracker) لمعرفة الطلاب الذين أتموا الحل والأسئلة الأكثر خطأً.</li>
     </ul>
 
     <!-- Section 2: Architectural Overview -->
-    <div class="page-break"></div>
     <h2>2. المعمارية المعتمدة (4-Layer Clean Architecture)</h2>
     <p>
-      تم تصميم النظام وفق أحدث معايير هندسة البرمجيات النظيفة في منصة .NET عبر الفصل الصارم بين طبقات العمليات:
+      تم تطبيق معمارية الـ 4 طبقات النظيفة في منصة .NET لضمان سهولة الصيانة وقابلية الاختبار:
     </p>
 
     <div class="architecture-diagram">
-+-------------------------------------------------------------+
-|                  QuizPlatform.API (Presentation)            |
-|     - Controllers: ExamsController, SubmissionsController   |
-|     - Program.cs, Swagger OpenAPI, CORS, Middleware         |
-+-------------------------------------------------------------+
-                              |
-                              v
-+-------------------------------------------------------------+
-|                  QuizPlatform.Application (BLL)             |
-|     - Services: ExamService, SubmissionService              |
-|     - Interfaces: IExamService, ISubmissionService          |
-|     - DTOs: ExamDtos, SubmissionDtos, TrackerDtos           |
-+-------------------------------------------------------------+
-                              |
-                +-------------+-------------+
-                |                           |
-                v                           v
-+-------------------------------+   +-------------------------+
-| QuizPlatform.Infrastructure   |   | QuizPlatform.Core       |
-| - AppDbContext (EF Core)      |   | - Entities:             |
-| - Repositories: Exam, Subm.   |-->|   Exam, Question,       |
-| - PdfParserService (PdfPig)   |   |   Option, Submission    |
-| - SQLite Database Provider    |   | - Enums & Core Rules    |
-+-------------------------------+   +-------------------------+
++---------------------------------------------------------------------------------+
+|                         QuizPlatform.API (Controllers)                          |
+|             ExamsController, SubmissionsController, AnalyticsController         |
++---------------------------------------------------------------------------------+
+                                         |
+                                         v
++---------------------------------------------------------------------------------+
+|                         QuizPlatform.Application (BLL)                          |
+|                   ExamService, SubmissionService, AnalyticsService              |
+|                      DTOs (ExamDtos, SubmissionDtos, TrackerDtos)               |
++---------------------------------------------------------------------------------+
+                         |                                 |
+                         v                                 v
++------------------------------------+   +----------------------------------------+
+|   QuizPlatform.Infrastructure      |   |          QuizPlatform.Core             |
+|   - AppDbContext (EF Core)         |   | - Entities: Exam, Question, Option,    |
+|   - Repositories: Exam, Submission |-->|             Submission, StudentAnswer  |
+|   - PdfParserService (PdfPig)      |   | - Enums: QuestionType, ExamStatus      |
+|   - SQLite Database                |   | - Interfaces: IRepository, IExamRepo   |
++------------------------------------+   +----------------------------------------+
     </div>
 
     <!-- Section 3: Functional Requirements -->
@@ -354,7 +406,7 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 15%;">رقم المطلب</th>
+          <th style="width: 15%;">الرمز</th>
           <th style="width: 25%;">اسم الميزة</th>
           <th>الوصف والتفاصيل</th>
         </tr>
@@ -363,73 +415,72 @@
         <tr>
           <td><strong>FR-01</strong></td>
           <td>استخراج الـ PDF بدون AI</td>
-          <td>استخدام مكتبة UglyToad.PdfPig واستخراج الأسئلة بنمط Regex للمطابقة القطعية (مثل: <code>1. What is...</code> وخيارات <code>A) B) C) D)</code>).</td>
+          <td>استخراج الأسئلة والخيارات (A, B, C, D أو أ، ب، ج، د) ومفتاح الحل بنمط Regex ومكتبة UglyToad.PdfPig.</td>
         </tr>
         <tr>
           <td><strong>FR-02</strong></td>
           <td>مراجعة وتعديل الأسئلة</td>
-          <td>إتاحة فحص الأسئلة المستخرجة وتعديل الإجابة النموذجية وتحديد درجات كل سؤال قبل نشر الامتحان.</td>
+          <td>إتاحة تعديل نصوص الأسئلة والخيارات وتحديد الإجابة الصحيحة والدرجة قبل النشر.</td>
         </tr>
         <tr>
           <td><strong>FR-03</strong></td>
           <td>توليد كود الدخول (Access Code)</td>
-          <td>توليد كود مميز عشوائي (مثل: <code>QC-583921</code>) للوصول للامتحان دون الحاجة لتسجيل حساب معقد للطلاب.</td>
+          <td>توليد كود فريد (مثل: <code>QC-583921</code>) يتيح للطالب الدخول مباشرة للاختبار.</td>
         </tr>
         <tr>
           <td><strong>FR-04</strong></td>
           <td>واجهة حل الامتحان للطالب</td>
-          <td>حجب الإجابة الصحيحة تماماً من نموذج الـ API لمنع الغش عبر أدوات المطورين (F12/DevTools).</td>
+          <td>حجب حقل <code>IsCorrect</code> في كائن <code>TakeExamDto</code> لمنع الغش البرمجي.</td>
         </tr>
         <tr>
           <td><strong>FR-05</strong></td>
           <td>مؤقت الامتحان والتسليم التلقائي</td>
-          <td>حساب الوقت المتبقي وتسليم الإجابات تلقائياً بمجرد وصول العداد التنازلي إلى الصفر.</td>
+          <td>عداد تنازلي نشط يقوم بتسليم الامتحان تلقائياً فور انتهاء الوقت المحدد.</td>
         </tr>
         <tr>
           <td><strong>FR-06</strong></td>
           <td>التصحيح التلقائي الفوري</td>
-          <td>مقارنة إجابات الطالب بالإجابات النموذجية، احتساب المجموع، وإصدار النتيجة والنسبة المئوية فوراً.</td>
+          <td>مقارنة إجابات الطالب بالنموذج، احتساب الدرجة والنسبة المئوية، وتحديد حالة النجاح فوراً.</td>
         </tr>
         <tr>
           <td><strong>FR-07</strong></td>
-          <td>تتبع الحضور والنتائج (Tracker)</td>
-          <td>عرض قائمة كاملة بالطلاب الذين قاموا بالحل، درجاتهم، وتحديد السؤال الأكثر خطأً (Hardest Question).</td>
+          <td>شاشة تتبع الطلاب والتحليلات</td>
+          <td>عرض قائمة الحضور، نسب النجاح العامة، وتحديد السؤال الأكثر صعوبة (Hardest Question).</td>
         </tr>
       </tbody>
     </table>
 
     <!-- Section 4: Non-Functional Requirements -->
-    <div class="page-break"></div>
     <h2>4. المتطلبات غير الوظيفية (Non-Functional Requirements)</h2>
     <table>
       <thead>
         <tr>
-          <th style="width: 20%;">المعيار</th>
+          <th style="width: 25%;">المعيار</th>
           <th>المواصفات المستهدفة</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>السرعة والأداء (Performance)</strong></td>
-          <td>معالجة ملف PDF المكون من 50 سؤالاً في زمن يقل عن 1.5 ثانية بدون استهلاك سيرفرات خارجية.</td>
+          <td><strong>الأداء (Performance)</strong></td>
+          <td>استخراج ملف PDF يحتوي على 50 سؤالاً في زمن يقل عن 1.5 ثانية بدون استدعاء سيرفرات خارجية.</td>
         </tr>
         <tr>
-          <td><strong>الأمان والنزاهة (Security)</strong></td>
-          <td>فصل كائن <code>TakeExamDto</code> عن <code>ExamDetailDto</code> لضمان عدم إرسال حقل <code>IsCorrect</code> للطلاب نهائياً.</td>
+          <td><strong>الأمان (Security)</strong></td>
+          <td>عدم تسريب الإجابات الصحيحة في الـ API المخصص للطلاب عبر عزل نماذج الـ DTOs.</td>
         </tr>
         <tr>
           <td><strong>الاعتمادية (Reliability)</strong></td>
-          <td>الاعتماد على مكتبة مفتوحة المصدر نقية C# بدون مكتبات C++ خارجية أو خدمات سحابية مدفوعة.</td>
+          <td>الاعتماد على مكتبة مفتوحة المصدر نقية C# بدون مكتبات تشغيل خارجية إضافية.</td>
         </tr>
         <tr>
-          <td><strong>قابلية الصيانة (Maintainability)</strong></td>
-          <td>فصل طبقات التطبيق الـ 4 بحيث يمكن استبدال قاعدة البيانات من SQLite إلى SQL Server أو PostgreSQL دون لمس طبقة الـ Core أو الـ API.</td>
+          <td><strong>سهولة الصيانة (Maintainability)</strong></td>
+          <td>فصل طبقات المعمارية النظيفة بحيث يمكن تغيير قاعدة البيانات دون لمس الـ Core أو الـ API.</td>
         </tr>
       </tbody>
     </table>
 
     <!-- Section 5: Data Models -->
-    <h2>5. مخطط الكيانات وقاعدة البيانات (Entities & Data Model)</h2>
+    <h2>5. مخطط الكيانات وقاعدة البيانات (Database Entities)</h2>
     <ul>
       <li><strong>Exam:</strong> <code>Id, Title, AccessCode, DurationMinutes, TotalMarks, PassPercentage, Status, CreatedAt</code>.</li>
       <li><strong>Question:</strong> <code>Id, ExamId, QuestionNumber, Text, Type, Points, Explanation</code>.</li>
@@ -440,7 +491,7 @@
 
     <div class="info-box">
       <strong>ملاحظة التقديم:</strong>
-      تم ربط هذا المستند بملف المهام التنفيذية <code>ASSIGNMENTS.md</code> والمستودع على GitHub: <code>https://github.com/moaazali3/QuizCraft.git</code>.
+      المشروع مرفوع على GitHub: <code>https://github.com/moaazali3/QuizCraft.git</code> ومرفق به ملف توزيع المهام <code>ASSIGNMENTS.md</code>.
     </div>
 
   </div>
